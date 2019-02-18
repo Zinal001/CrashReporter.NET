@@ -98,6 +98,11 @@ namespace CrashReporterDotNET
 
         internal string ApplicationVersion;
 
+        /// <summary>
+        /// Override the version of the application
+        /// </summary>
+        public String OverriddenVersion = null;
+
         internal string ScreenShot;
 
         private DrDumpService _doctorDumpService;
@@ -131,6 +136,10 @@ namespace CrashReporterDotNET
             ApplicationVersion = ApplicationDeployment.IsNetworkDeployed
                 ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
                 : mainAssembly.GetName().Version.ToString();
+
+            if (!String.IsNullOrEmpty(OverriddenVersion))
+                ApplicationVersion = OverriddenVersion;
+
             try
             {
                 ScreenShot = $@"{Path.GetTempPath()}\{ApplicationTitle} Crash Screenshot.png";
